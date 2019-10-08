@@ -28,11 +28,13 @@ public class CoreApplication {
 		SpringApplication.run(CoreApplication.class, args);
 	}
 
+	// Bean for ModelMapper
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 
+	// Bean for Swagger
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.any())
