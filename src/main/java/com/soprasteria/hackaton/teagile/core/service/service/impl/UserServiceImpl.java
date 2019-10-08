@@ -22,9 +22,11 @@ import com.soprasteria.hackaton.teagile.core.service.common.CustomErrorType;
 import com.soprasteria.hackaton.teagile.core.service.common.CustomMessage;
 import com.soprasteria.hackaton.teagile.core.service.controller.MeetingController;
 import com.soprasteria.hackaton.teagile.core.service.controller.UserController;
+import com.soprasteria.hackaton.teagile.core.service.dto.MailDTO;
 import com.soprasteria.hackaton.teagile.core.service.dto.UserRequestDTO;
 import com.soprasteria.hackaton.teagile.core.service.dto.UserResponseDTO;
 import com.soprasteria.hackaton.teagile.core.service.entity.UserEntity;
+import com.soprasteria.hackaton.teagile.core.service.producer.QueueProducer;
 import com.soprasteria.hackaton.teagile.core.service.repository.UserRepository;
 import com.soprasteria.hackaton.teagile.core.service.service.UserService;
 
@@ -33,9 +35,11 @@ public class UserServiceImpl implements UserService {
 	
 	private UserRepository userRepository;
 	private ModelMapper modelMapper;
+	private QueueProducer queueProducer;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(QueueProducer queueProducer, UserRepository userRepository, ModelMapper modelMapper) {
+		this.queueProducer = queueProducer;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
@@ -169,7 +173,8 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<?> addUser(UserRequestDTO userRequestDTO) {
 
 		Resources<CustomMessage> resource = null;
-
+		UserEntity entityResponse = new UserEntity();
+		
 		try {
 			List<CustomMessage> customMessageList = null;
 
@@ -191,23 +196,21 @@ public class UserServiceImpl implements UserService {
 			String decodedPassword = new String(passwordBytes);
 			entityRequest.setPassword(decodedPassword);
 
-			userRepository.save(entityRequest);
+			entityResponse = userRepository.save(entityRequest);
 
-			String type = "RegistrationWelcome";
-
-			// Send email
-			//mailClient.prepareAndSend(userRequestDTO.getEmail(), type);
-
-			customMessageList = ArrayListCustomMessage.setMessage("Created new user", HttpStatus.CREATED);
-
-			resource = new Resources<>(customMessageList);
-			resource.add(linkTo(UserController.class).withSelfRel());
+			MailDTO mailDTO = new MailDTO();
+			mailDTO.setEmail(userRequestDTO.getEmail());
+			mailDTO.setType("Registration");
+			
+			// Send mail
+			queueProducer.produceMail(mailDTO);
+			
 		} catch (Exception e) {
 			logger.error("An error occurred! {}", e.getMessage());
 			return CustomErrorType.returnResponsEntityError(e.getMessage());
 		}
 
-		return new ResponseEntity<>(resource, HttpStatus.OK);
+		return new ResponseEntity<>(entityResponse, HttpStatus.OK);
 
 	}
 

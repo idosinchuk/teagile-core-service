@@ -10,16 +10,14 @@ import lombok.Data;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-@ApiModel(reference = "Mail", description = "Model Mail.")
+@ApiModel(reference = "Mail", description = "Model for Mail.")
 public class MailDTO {
 
 	@NotNull
 	@ApiModelProperty(value = "Email", example = "igor.dosinchuk@example.com")
 	private String email;
 
-	@ApiModelProperty(value = "Meeting description", example = "This is a description")
-	private String description;
-
-
-
+	@ApiModelProperty(value = "Type", example = "Registration")
+	private String type;
+	
 }
