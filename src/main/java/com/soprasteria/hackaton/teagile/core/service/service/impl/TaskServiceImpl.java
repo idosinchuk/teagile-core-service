@@ -26,7 +26,6 @@ import com.soprasteria.hackaton.teagile.core.service.dto.TaskRequestDTO;
 import com.soprasteria.hackaton.teagile.core.service.dto.TaskResponseDTO;
 import com.soprasteria.hackaton.teagile.core.service.entity.ProjectEntity;
 import com.soprasteria.hackaton.teagile.core.service.entity.TaskEntity;
-import com.soprasteria.hackaton.teagile.core.service.mail.MailClient;
 import com.soprasteria.hackaton.teagile.core.service.repository.ProjectRepository;
 import com.soprasteria.hackaton.teagile.core.service.repository.TaskRepository;
 import com.soprasteria.hackaton.teagile.core.service.service.TaskService;
@@ -34,17 +33,16 @@ import com.soprasteria.hackaton.teagile.core.service.service.TaskService;
 @Service("Taskservice")
 public class TaskServiceImpl implements TaskService {
 
-	@Autowired
 	private TaskRepository taskRepository;
-
-	@Autowired
 	private ProjectRepository projectRepository;
-
-	@Autowired
 	private ModelMapper modelMapper;
 
-	@Autowired
-	MailClient mailClient;
+    @Autowired
+    public TaskServiceImpl(TaskRepository taskRepository, ProjectRepository projectRepository, ModelMapper modelMapper) {
+        this.taskRepository = taskRepository;
+        this.projectRepository = projectRepository;
+        this.modelMapper = modelMapper;
+    }
 
 	public static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 

@@ -22,10 +22,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableDiscoveryClient
 @SpringBootApplication
-public class TeAgileHackatonApplication {
+public class CoreApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TeAgileHackatonApplication.class, args);
+		SpringApplication.run(CoreApplication.class, args);
 	}
 
 	@Bean
@@ -51,4 +51,5 @@ public class TeAgileHackatonApplication {
 		// Match all paths except /error
 		return Predicates.and(PathSelectors.regex("/.*"), Predicates.not(PathSelectors.regex("/error.*")));
 	}
+
 }

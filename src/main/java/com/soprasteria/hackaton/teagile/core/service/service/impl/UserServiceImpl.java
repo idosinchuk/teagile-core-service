@@ -25,21 +25,20 @@ import com.soprasteria.hackaton.teagile.core.service.controller.UserController;
 import com.soprasteria.hackaton.teagile.core.service.dto.UserRequestDTO;
 import com.soprasteria.hackaton.teagile.core.service.dto.UserResponseDTO;
 import com.soprasteria.hackaton.teagile.core.service.entity.UserEntity;
-import com.soprasteria.hackaton.teagile.core.service.mail.MailClient;
 import com.soprasteria.hackaton.teagile.core.service.repository.UserRepository;
 import com.soprasteria.hackaton.teagile.core.service.service.UserService;
 
 @Service("UserService")
 public class UserServiceImpl implements UserService {
-
-	@Autowired
+	
 	private UserRepository userRepository;
-
-	@Autowired
 	private ModelMapper modelMapper;
 
-	@Autowired
-	MailClient mailClient;
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 
 	public static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -197,7 +196,7 @@ public class UserServiceImpl implements UserService {
 			String type = "RegistrationWelcome";
 
 			// Send email
-			mailClient.prepareAndSend(userRequestDTO.getEmail(), type);
+			//mailClient.prepareAndSend(userRequestDTO.getEmail(), type);
 
 			customMessageList = ArrayListCustomMessage.setMessage("Created new user", HttpStatus.CREATED);
 

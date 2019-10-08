@@ -25,7 +25,6 @@ import com.soprasteria.hackaton.teagile.core.service.dto.MeetingRequestDTO;
 import com.soprasteria.hackaton.teagile.core.service.dto.MeetingResponseDTO;
 import com.soprasteria.hackaton.teagile.core.service.entity.MeetingEntity;
 import com.soprasteria.hackaton.teagile.core.service.entity.ProjectEntity;
-import com.soprasteria.hackaton.teagile.core.service.mail.MailClient;
 import com.soprasteria.hackaton.teagile.core.service.repository.MeetingRepository;
 import com.soprasteria.hackaton.teagile.core.service.repository.ProjectRepository;
 import com.soprasteria.hackaton.teagile.core.service.service.MeetingService;
@@ -33,17 +32,16 @@ import com.soprasteria.hackaton.teagile.core.service.service.MeetingService;
 @Service("Meetingservice")
 public class MeetingServiceImpl implements MeetingService {
 
-	@Autowired
 	private MeetingRepository meetingRepository;
-
-	@Autowired
 	private ProjectRepository projectRepository;
-
-	@Autowired
 	private ModelMapper modelMapper;
 
-	@Autowired
-	MailClient mailClient;
+    @Autowired
+    public MeetingServiceImpl(MeetingRepository meetingRepository, ProjectRepository projectRepository, ModelMapper modelMapper) {
+        this.meetingRepository = meetingRepository;
+        this.projectRepository = projectRepository;
+        this.modelMapper = modelMapper;
+    }
 
 	public static final Logger logger = LoggerFactory.getLogger(MeetingServiceImpl.class);
 

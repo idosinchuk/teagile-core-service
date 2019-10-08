@@ -28,7 +28,6 @@ import com.soprasteria.hackaton.teagile.core.service.dto.ProjectResponseDTO;
 import com.soprasteria.hackaton.teagile.core.service.dto.UserResponseDTO;
 import com.soprasteria.hackaton.teagile.core.service.entity.ProjectEntity;
 import com.soprasteria.hackaton.teagile.core.service.entity.UserEntity;
-import com.soprasteria.hackaton.teagile.core.service.mail.MailClient;
 import com.soprasteria.hackaton.teagile.core.service.repository.ProjectRepository;
 import com.soprasteria.hackaton.teagile.core.service.repository.UserRepository;
 import com.soprasteria.hackaton.teagile.core.service.service.ProjectService;
@@ -36,17 +35,16 @@ import com.soprasteria.hackaton.teagile.core.service.service.ProjectService;
 @Service("ProjectService")
 public class ProjectServiceImpl implements ProjectService {
 
-	@Autowired
-	private ProjectRepository projectRepository;
-
-	@Autowired
 	private UserRepository userRepository;
-
-	@Autowired
+	private ProjectRepository projectRepository;
 	private ModelMapper modelMapper;
 
-	@Autowired
-	MailClient mailClient;
+    @Autowired
+    public ProjectServiceImpl(UserRepository userRepository, ProjectRepository projectRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
+        this.modelMapper = modelMapper;
+    }
 
 	public static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
@@ -180,7 +178,7 @@ public class ProjectServiceImpl implements ProjectService {
 				String type = "User added to project";
 
 				// TODO: Mandar mail con: Se te ha añadido al proyecto.
-				mailClient.prepareAndSend(userEntity.getEmail(), type);
+				// mailClient.prepareAndSend(userEntity.getEmail(), type);
 
 			}
 

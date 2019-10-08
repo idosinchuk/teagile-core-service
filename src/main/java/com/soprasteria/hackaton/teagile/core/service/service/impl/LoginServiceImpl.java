@@ -24,8 +24,12 @@ import com.soprasteria.hackaton.teagile.core.service.service.LoginService;
 @Service("LoginService")
 public class LoginServiceImpl implements LoginService {
 
-	@Autowired
 	private UserRepository userRepository;
+
+    @Autowired
+    public LoginServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 	public static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
 
