@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soprasteria.hackaton.teagile.core.service.dto.TaskRequestDTO;
 import com.soprasteria.hackaton.teagile.core.service.service.TaskService;
 
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@Timed
 @Api(value = "API Rest for Task.")
 @RequestMapping(value = "/api/v1")
 public class TaskController {
@@ -35,7 +36,7 @@ public class TaskController {
 	TaskService taskService;
 
 	@GetMapping(path = "/projects/{projectId}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
+	@Timed
 	@ApiOperation(value = "Retrieve list of all tasks.")
 	public ResponseEntity<?> getAllTasksByProjectId(@PathVariable("projectId") int projectId) {
 
@@ -44,7 +45,6 @@ public class TaskController {
 	}
 
 	@PostMapping(path = "/projects/{projectId}/tasks", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
 	@ApiOperation(value = "Add a task.")
 	public ResponseEntity<?> addTaskByProjectId(@PathVariable("projectId") int projectId, @Valid @RequestBody TaskRequestDTO taskRequestDTO) {
 
@@ -53,7 +53,6 @@ public class TaskController {
 	}
 
 	@PatchMapping(path = "/projects/{projectId}/tasks/{taskId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
 	@ApiOperation(value = "Update the task.")
 	public ResponseEntity<?> updateTaskByProjectIdAndMeetingId(@RequestParam("taskId") int taskId,
 			@RequestParam("projectId") int projectId, @RequestBody TaskRequestDTO taskRequestDTO) {
@@ -63,7 +62,6 @@ public class TaskController {
 	}
 
 	@DeleteMapping(path = "/projects/{projectId}/tasks/{taskId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
 	@ApiOperation(value = "Delete the task")
 	public ResponseEntity<?> deleteTaskByProjectIdAndMeetingId(@RequestParam("taskId") int taskId,
 			@RequestParam("projectId") int projectId) {

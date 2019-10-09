@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soprasteria.hackaton.teagile.core.service.dto.UserRequestDTO;
 import com.soprasteria.hackaton.teagile.core.service.service.UserService;
 
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@Timed
 @Api(value = "API Rest for User.")
 @RequestMapping(value = "/api/v1")
 public class UserController {
@@ -35,7 +36,7 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
+	@Timed
 	@ApiOperation(value = "Retrieve list of all users.")
 	public ResponseEntity<?> getAllUsers() {
 
@@ -44,6 +45,7 @@ public class UserController {
 	}
 
 	@GetMapping(path = "/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
 	@ApiOperation(value = "Retrieve user by User ID.")
 	public ResponseEntity<?> getUser(@PathVariable("userId") int userId) {
 
@@ -52,6 +54,7 @@ public class UserController {
 	}
 	
 	@GetMapping(path = "/users/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
 	@ApiOperation(value = "Retrieve user by email.")
 	public ResponseEntity<?> getUserByEmail(@PathVariable("email") String email) {
 
@@ -60,6 +63,7 @@ public class UserController {
 	}
 
 	@GetMapping(path = "/users/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
 	@ApiOperation(value = "Retrieve user by login credentials.")
 	public ResponseEntity<?> getUserByEmailAndPassword(@RequestParam("email") String email,
 			@RequestParam("password") String password) {
@@ -70,6 +74,7 @@ public class UserController {
 	}
 
 	@PostMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
 	@ApiOperation(value = "Add a user.")
 	public ResponseEntity<?> addUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
 
@@ -78,6 +83,7 @@ public class UserController {
 	}
 
 	@PatchMapping(path = "/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
 	@ApiOperation(value = "Update the user.")
 	public ResponseEntity<?> updateUserByUserId(@PathVariable("userId") int userId, @RequestBody UserRequestDTO userRequestDTO) {
 
@@ -86,6 +92,7 @@ public class UserController {
 	}
 
 	@DeleteMapping(path = "/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
 	@ApiOperation(value = "Delete user by User ID.")
 	public ResponseEntity<?> deleteUser(@PathVariable("userId") int userId) {
 
