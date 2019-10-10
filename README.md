@@ -1,2 +1,2 @@
 # teagile-core-service
-TEAgile Core Service for SopraSteria Hackaton
+Core Service for TEAgile project

@@ -9,11 +9,11 @@
 		<version>2.1.7.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.soprasteria.hackaton.teagile.core.service</groupId>
+	<groupId>com.idosinchuk.teagile.core.service</groupId>
 	<artifactId>teagile-core-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>teagile-core-service</name>
-	<description>TEAgile Core Service for SopraSteria Hackaton</description>
+	<description>Core Service for TEAgile project</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
