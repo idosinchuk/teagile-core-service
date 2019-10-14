@@ -92,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService {
 				customMessageList = ArrayListCustomMessage
 						.setMessage("The requested project does not exists. Please try again.", HttpStatus.NO_CONTENT);
 				resource = new Resources<>(customMessageList);
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(resource, HttpStatus.NO_CONTENT);
 			}
 
 			projectResponseDTO = modelMapper.map(entityResponse, ProjectResponseDTO.class);

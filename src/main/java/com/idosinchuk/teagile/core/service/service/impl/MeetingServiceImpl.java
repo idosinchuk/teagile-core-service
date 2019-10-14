@@ -85,7 +85,7 @@ public class MeetingServiceImpl implements MeetingService {
 				customMessageList = ArrayListCustomMessage.setMessage(
 						"The projectId does not exists. Please try with valid projectId.", HttpStatus.NO_CONTENT);
 				resource = new Resources<>(customMessageList);
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(resource, HttpStatus.NO_CONTENT);
 			}
 
 			checkPriorityAndStatus(meetingRequestDTO);
